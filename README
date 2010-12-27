@@ -1,0 +1,5 @@
+pimtools
+
+A couple of scripts doing conversion to and from various PIM data dialects
+(vcard, ical etc.).
+

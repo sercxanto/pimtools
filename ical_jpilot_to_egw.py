@@ -224,7 +224,6 @@ def main():
                 preamble.append(line)
 
             if line.find("END:VEVENT") == 0:
-                # @todo process last entry and write into file
                 inEntry = False
                 newEntry = tweakEntry(entry, options)
                 writeEntryToFile(newEntry, outputFile)

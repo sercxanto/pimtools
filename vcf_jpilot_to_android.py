@@ -159,7 +159,6 @@ def main():
             inEntry = True
         else:
             if line.find("END:VCARD") == 0:
-                # @todo process last entry and write into file
                 inEntry = False
                 newEntry = tweakEntry(entry, options)
                 writeEntryToFile(newEntry, outputFile)

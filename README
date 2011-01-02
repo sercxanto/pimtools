@@ -1,5 +1,33 @@
-pimtools
+pimtools - converting PIM data formats (vcard, ical etc.)
 
-A couple of scripts doing conversion to and from various PIM data dialects
-(vcard, ical etc.).
+Often an PIM (personal information manager) application claims to be able to
+import or export in a standard format. But when you look closer you realize
+that it interpret fields in another way as it is defined in the standard, e.g.
+the date format is different or another default charset is assumed.
 
+In the last couple of years I had many of such cases where I needed to hack a
+script to tweak the exported data of one application so it can be imported into
+another one.
+
+In this repository you can find some of these scripts. Note that I have not
+extensively tested the code. It "just worked" in this very situation / with
+this specific version number. Note also that the output may not be standard
+compatible. If all programms would behave like the standard there would be no
+need for conversion scripts ...
+
+
+ical_jpilot_to_egw.py
+=====================
+
+Converts the ical output of jpilot to something which can be imported into
+eGroupware. The main problem is the different interpretation of recurrent
+events.
+
+
+vcf_jpilot_to_android.py
+========================
+
+Converts the VCARD output of jpilot so that it can be imported with the android
+contacts app (cynogenmod 6.1.1 for N1). This script was necessary due to the
+custom birthday field of jpilot and the declaration of the email address as
+telefone number.

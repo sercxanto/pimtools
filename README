@@ -38,3 +38,21 @@ jpilot_vcard_to_gammu_nokia_2730.py
 
 Script I used previously to the switch to android to convert the jpilot VCARD
 output to something gammu and the Nokia 2730 understood.
+
+
+vcf_egw_to_gammu_nokia_2730.py
+==============================
+
+Tweaks eGroupware's VCARD export so that it can be imported into a Nokia 2730
+classic phone with help of gammu. To connect to the phone use the connection
+type "bluephonet".  Serial connections over USB raised errors when trying to
+download the phonebook.
+
+Tried with gammu 1.26.1 / Wammu 0.32.1, egroupware 1.8.001 and Nokia firmware
+10.40 .
+
+Known bugs:
+ * Postal addresses cannot be imported (gammu / Nokia issue)
+ * Note fields are somehow corrupted and cut off after linebreak (egw issue)
+ * birthdays cannot be imported (gammu / Nokia issue).
+ * Import takes loooong time. E.g. plan 5 min for 135 contacts.

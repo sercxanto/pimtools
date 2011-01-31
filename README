@@ -56,3 +56,13 @@ Known bugs:
  * Note fields are somehow corrupted and cut off after linebreak (egw issue)
  * birthdays cannot be imported (gammu / Nokia issue).
  * Import takes loooong time. E.g. plan 5 min for 135 contacts.
+
+
+vcf_egw_to_muttalias.py
+=======================
+
+Converts the VCARD export of EGroupware to an mutt alias file. Multiple
+addresses are supported. The alias line look like the following example:
+
+ alias muellerhans Hans Mueller <hans.mueller@domain.com>
+ alias muellerhans2 Hans Mueller <hansi@domain.com>

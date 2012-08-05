@@ -131,7 +131,7 @@ def tweakEntry(entry, options):
 
     # Delete empty ORG field as nokia would display two semicolons
     if getField(result, "ORG") == ";;":
-        deleteField(entry, "ORG")
+        deleteField(result, "ORG")
     
     return result
 

@@ -133,6 +133,9 @@ def tweakEntry(entry, options):
     if getField(result, "ORG") == ";;":
         deleteField(result, "ORG")
     
+    # gammu/wammu/phone throws an error when reaching an entry with BDAY, so remove it
+    deleteField(result,"BDAY")
+    
     return result
 
 

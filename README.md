@@ -28,7 +28,7 @@ vcf_jpilot_to_android.py
 ========================
 
 Converts the VCARD output of jpilot so that it can be imported with the android
-contacts app (cynogenmod 6.1.1 for N1). This script was necessary due to the
+contacts app (cyanogenmod 6.1.1 for N1). This script was necessary due to the
 custom birthday field of jpilot and the declaration of the email address as
 telefone number.
 
@@ -64,5 +64,5 @@ vcf_egw_to_muttalias.py
 Converts the VCARD export of EGroupware to an mutt alias file. Multiple
 addresses are supported. The alias line look like the following example:
 
- alias muellerhans Hans Mueller <hans.mueller@domain.com>
- alias muellerhans2 Hans Mueller <hansi@domain.com>
+    alias muellerhans Hans Mueller <hans.mueller@domain.com>
+    alias muellerhans2 Hans Mueller <hansi@domain.com>

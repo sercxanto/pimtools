@@ -66,3 +66,9 @@ addresses are supported. The alias line look like the following example:
 
     alias muellerhans Hans Mueller <hans.mueller@domain.com>
     alias muellerhans2 Hans Mueller <hansi@domain.com>
+
+
+vcf_egw_to_owncloud.py
+======================
+
+Fixes cut-off note fields when importing egroupware contacts to owncloud.

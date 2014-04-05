@@ -72,3 +72,43 @@ vcf_egw_to_owncloud.py
 ======================
 
 Fixes cut-off note fields when importing egroupware contacts to owncloud.
+
+
+vcf\_split.py
+=============
+
+Splits a single vcf file with multiple VCARD entries to multiple vcf files with
+a single VCARD entry.
+
+The file names consist of the value of the UID field. If the UID
+field is absent the pattern ```nouid_counter.vcf``` is used where ```counter```
+is a number starting from 1.
+
+Example:
+
+    $ cat test.vcf
+    BEGIN:VCARD
+    UID:myuid1
+    FN:Name 1
+    ...
+    END:VCARD
+
+    BEGIN:VCARD
+    UID:myuid2
+    FN:Name 2
+    ...
+    END:VCARD
+
+    BEGIN:VCARD
+    FN:Name 3
+    ...
+    END:VCARD
+
+    BEGIN:VCARD
+    FN:Name 4
+    ...
+    END:VCARD
+
+    $ vcf_split test.vcf outdir
+    $ ls outdir
+    myuid1.vcf  myuid2.vcf  nouid_001.vcf  nouid_002.vcf

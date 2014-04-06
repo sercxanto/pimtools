@@ -112,3 +112,16 @@ Example:
     $ vcf_split test.vcf outdir
     $ ls outdir
     myuid1.vcf  myuid2.vcf  nouid_001.vcf  nouid_002.vcf
+
+
+ical_find_duplicates.py
+=======================
+
+Finds possible duplicate VEVENT entries in an ical-File. Basically it prints
+entries with the same SUMMARY and DTSTART fields. Most probably those are
+duplicates.
+
+This occurs e.g. if some synchronization software goes wild and copies
+appointments back and forth.
+
+

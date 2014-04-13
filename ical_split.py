@@ -179,6 +179,8 @@ printed. So to disable all output set debuglevel e.g. to 100.""")
                 outfile_name = "nouid_%03d" % (no_uid_counter)
             outfile_name = current_component + "_" + outfile_name + ".ics"
             outfile_path = os.path.join(outdir, outfile_name)
+            # TODO: Having several entries with the UID is perfectly legal
+            # for recurring events with exceptions
             if os.path.exists(outfile_path):
                 msg = "UID collision, file %s already exists." % (
                         outfile_path)

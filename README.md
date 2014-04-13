@@ -125,3 +125,13 @@ This occurs e.g. if some synchronization software goes wild and copies
 appointments back and forth.
 
 
+ical\_split.py
+=============
+
+Splits a single ics file with multiple VEVENT, VTODO, VJOURNAL, VFREEBUSY or
+VTIMEZONE entries to multiple ical files with a single entries.
+
+Useful if you want to compare two ics files where the UIDs stay the same but the
+content of the single entries differs.
+
+See also ```vcard_split.py```.

@@ -192,14 +192,14 @@ def main():
             logging.error("Cannot open output file for writing")
             sys.exit(2)
 
-    line = vcardFile.readline().replace("\n","").replace("\r","")
 
     # An entry is an array reflecting one vcard entry, without BEGIN and END tags
     # Usually on each line reflects another field (execpt for multiline field)
     entry = []
     inEntry = False # flag if we are inside one vcard
     lineNr = 1
-    while line != "":
+    for line in vcardFile:
+        line = line.replace("\n","").replace("\r","")
 
         if line.find("BEGIN:VCARD") == 0:
             inEntry = True
@@ -214,7 +214,6 @@ def main():
                     entry.append(line)
                     # inside a vcard entry
 
-        line = vcardFile.readline().replace("\n","").replace("\r","")
         lineNr = lineNr + 1
 
 

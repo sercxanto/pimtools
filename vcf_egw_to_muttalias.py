@@ -19,18 +19,16 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
 import logging
 import optparse
 import os
 import quopri
-import re
 import sys
 
 
 def getField(list, field):
     '''Returns the contents of the first occurence of a given VCARD field.
-       Returns None if field is not found''' 
+       Returns None if field is not found'''
     result = None
     for line in list:
         if line.find(field + ":") == 0:
@@ -47,8 +45,8 @@ def getFields(list, field):
        (seperated by ";").'''
     result = []
     for line in list:
-        if line.find(field + ":") == 0 or ( line.find(field + ";") == 0 and line.find(":") > line.find(field + ";")) :
-            entry = line.split(":",1) # split only at the first occurence of ":"
+        if line.find(field + ":") == 0 or (line.find(field + ";") == 0 and line.find(":") > line.find(field + ";")):
+            entry = line.split(":", 1) # split only at the first occurence of ":"
             # Make sure that tuple is returned in case of emtpy field
             if len(entry) == 1:
                 entry.append("")
@@ -58,8 +56,8 @@ def getFields(list, field):
 
 def parseAndSplitField(field):
     '''Parses a VCARD field. field is a tuple consisting of the field name and the field content.
-       The content is decoded (if quoted printable) and de-splited by ";". The return value is a list
-       consisting of the splitted values.'''
+       The content is decoded (if quoted printable) and de-splited by ";". The return value is a
+       list consisting of the splitted values.'''
     result = []
     if len(field) != 2:
         return
@@ -93,14 +91,14 @@ def convertToMuttAliases(entry, logging):
             if len(parsedName) > 1:
                 entryName += parsedName[1].lower().replace(" ", "")
                 fullName = parsedName[1] + " " + parsedName[0]
-   
+
     # We haven't found a valid name, try company (ORG) field:
     if len(entryName) == 0:
         org = getFields("ORG")
         if len(org) > 0:
             parsedName = parseAndSplitField(org[0])
             if len(parsedName) > 0:
-                entryName = parsedName[0].lower().replace(" ","")
+                entryName = parsedName[0].lower().replace(" ", "")
                 fullName = parsedName[0]
     if len(entryName) == 0:
         logging.error("Cannot determine alias name. Ignore entry.")
@@ -122,18 +120,23 @@ def convertToMuttAliases(entry, logging):
 def main():
 
     parser = optparse.OptionParser(
-	    usage="%prog [options] vcardFile",
-	    version="%prog " + os.linesep +
-	    "Copyright (C) 2011 Georg Lutz <georg AT NOSPAM georglutz DOT de>",
-	    epilog = "vcardFile: The vcard file to convert.")
-    
-    parser.add_option("-d", "--debuglevel", dest="debuglevel",
-	    type="int", default=logging.WARNING,
-	    help="Sets numerical debug level, see library logging module. Default is 30 (WARNING). Possible values are CRITICAL 50, ERROR 40, WARNING 30, INFO 20, DEBUG 10, NOTSET 0. All log messages with debuglevel or above are printed. So to disable all output set debuglevel e.g. to 100.")
+	       usage="%prog [options] vcardFile",
+	       version="%prog " + os.linesep +
+	       "Copyright (C) 2011 Georg Lutz <georg AT NOSPAM georglutz DOT de>",
+	       epilog="vcardFile: The vcard file to convert.")
 
-    parser.add_option("-o", "--outputfile", dest="outputfile",
-	    type="string", default="", action="store",
-	    help="The output file. Default output is sent to STDOUT")
+    parser.add_option(
+        "-d", "--debuglevel", dest="debuglevel",
+        type="int", default=logging.WARNING,
+	       help="Sets numerical debug level, see library logging module." +
+        "Default is 30 (WARNING). Possible values are CRITICAL 50, ERROR 40," +
+        "WARNING 30, INFO 20, DEBUG 10, NOTSET 0. All log messages with debuglevel" +
+        "or above are printed. So to disable all output set debuglevel e.g. to 100.")
+
+    parser.add_option(
+        "-o", "--outputfile", dest="outputfile",
+	       type="string", default="", action="store",
+	       help="The output file. Default output is sent to STDOUT")
     (options, args) = parser.parse_args()
 
     logging.basicConfig(format="%(message)s", level=options.debuglevel)
@@ -168,7 +171,7 @@ def main():
     inEntry = False # flag if we are inside one vcard
     lineNr = 1
     for line in vcardFile:
-        line = line.replace("\n","").replace("\r","")
+        line = line.replace("\n", "").replace("\r", "")
 
         if line.find("BEGIN:VCARD") == 0:
             inEntry = True

@@ -1,10 +1,9 @@
 #!/usr/bin/python
+# vim: set fileencoding=utf-8 :
+""" vcf_egw_to_muttalias.py
+    Converts egroupware exported vcards to mutt aliases"""
 #
-#    vcf_egw_to_muttalias.py
-#
-#    Converts egroupware exported vcards to mutt aliases
-#
-#    Copyright (C) 2011 Georg Lutz <georg AT NOSPAM georglutz DOT de>
+#    Copyright (C) 2011-2017 Georg Lutz <georg AT NOSPAM georglutz DOT de>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -33,7 +32,8 @@ def get_fields(list_, field):
        (seperated by ";").'''
     result = []
     for line in list_:
-        if line.find(field + ":") == 0 or (line.find(field + ";") == 0 and line.find(":") > line.find(field + ";")):
+        if line.find(field + ":") == 0 or \
+        (line.find(field + ";") == 0 and line.find(":") > line.find(field + ";")):
             entry = line.split(":", 1) # split only at the first occurence of ":"
             # Make sure that tuple is returned in case of emtpy field
             if len(entry) == 1:
@@ -56,7 +56,7 @@ def parse_and_split_field(field):
     return result
 
 
-def convert_to_mutt_aliases(entry, logging):
+def convert_to_mutt_aliases(entry):
     '''Searches for email addresses in a VCARD entry and converts it to mutt aliases.
        Returns a list of mutt aliases'''
     result = []
@@ -104,8 +104,8 @@ def convert_to_mutt_aliases(entry, logging):
     return result
 
 
-########### MAIN PROGRAM #############
 def main():
+    '''main function, called when script file is executed directly'''
 
     parser = optparse.OptionParser(
 	       usage="%prog [options] vcard_file",
@@ -140,7 +140,7 @@ def main():
 
     try:
         vcard_file = open(vcard_file_name, "r")
-    except:
+    except IOError:
         logging.error("Cannot open vcard file")
         sys.exit(2)
 
@@ -149,7 +149,7 @@ def main():
     else:
         try:
             output_file = open(options.output_file, "w")
-        except:
+        except IOError:
             logging.error("Cannot open output file for writing")
             sys.exit(2)
 
@@ -167,7 +167,7 @@ def main():
         else:
             if line.find("END:VCARD") == 0:
                 in_entry = False
-                mutt_aliases = convert_to_mutt_aliases(entry, logging)
+                mutt_aliases = convert_to_mutt_aliases(entry)
                 for alias in mutt_aliases:
                     output_file.write(alias + "\n")
             else:

@@ -3,7 +3,7 @@
 
     Splits multiple VCARD entries in vcf file to multiple files"""
 #
-#    Copyright (C) 2014 Georg Lutz <georg AT NOSPAM georglutz DOT de>
+#    Copyright (C) 2014-2018 Georg Lutz <georg AT NOSPAM georglutz DOT de>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ def get_lineending(line):
        Returns empty string if none of these is detected.
     '''
     # Take care to match the longest ones first:
-    possible_endings = [ "\r\n", "\r", "\n" ]
+    possible_endings = ["\r\n", "\r", "\n"]
     for ending in possible_endings:
         if line.endswith(ending):
             return ending
@@ -40,7 +40,7 @@ def get_lineending(line):
 
 def get_field(list_, field):
     '''Returns the contents of the first occurence of a given VCARD field.
-       Returns None if field is not found''' 
+       Returns None if field is not found'''
     result = None
     for line in list_:
         if line.find(field + ":") == 0:
@@ -69,15 +69,16 @@ def main():
     '''main programm'''
 
     parser = optparse.OptionParser(
-	    usage="%prog [options] vcardFile outdir",
-	    version="%prog " + os.linesep +
-	    "Copyright (C) 2014 Georg Lutz <georg AT NOSPAM georglutz DOT de>",
-	    epilog = "vcardFile: The vcard file to split." + os.linesep +
-                      "outdir: The directory, where to write files to.")
-    
-    parser.add_option("-d", "--debuglevel", dest="debuglevel",
-	    type="int", default=logging.WARNING,
-	    help="""Sets numerical debug level, see library logging module.
+        usage="%prog [options] vcardFile outdir",
+	       version="%prog " + os.linesep +
+	       "Copyright (C) 2014 Georg Lutz <georg AT NOSPAM georglutz DOT de>",
+	       epilog="vcardFile: The vcard file to split." + os.linesep +
+        "outdir: The directory, where to write files to.")
+
+    parser.add_option(
+        "-d", "--debuglevel", dest="debuglevel",
+	       type="int", default=logging.WARNING,
+	       help="""Sets numerical debug level, see library logging module.
 Default is 30 (WARNING). Possible values are CRITICAL 50, ERROR 40, WARNING 30,
 INFO 20, DEBUG 10, NOTSET 0. All log messages with debuglevel or above are
 printed. So to disable all output set debuglevel e.g. to 100.""")
@@ -116,7 +117,7 @@ printed. So to disable all output set debuglevel e.g. to 100.""")
     for line in vcard_file:
         if len(lineending) == 0:
             lineending = get_lineending(line) # keep same line endings
-        line = line.replace("\n","").replace("\r","")
+        line = line.replace("\n", "").replace("\r", "")
 
         if line.find("BEGIN:VCARD") == 0:
             in_entry = True
@@ -131,11 +132,11 @@ printed. So to disable all output set debuglevel e.g. to 100.""")
                 outfile_path = os.path.join(outdir, outfile_name)
                 if os.path.exists(outfile_path):
                     msg = "UID collision, file %s already exists." % (
-                            outfile_path)
+                        outfile_path)
                     msg += " Exit."
                     logging.error(msg)
                     sys.exit(1)
-                
+
                 write_entry_to_file(entry, outfile_path, lineending)
                 entry = []
             else:

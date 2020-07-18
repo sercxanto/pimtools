@@ -3,7 +3,7 @@
 """ vcf_egw_to_muttalias.py
     Converts egroupware exported vcards to mutt aliases"""
 #
-#    Copyright (C) 2011-2017 Georg Lutz <georg AT NOSPAM georglutz DOT de>
+#    Copyright (C) 2011-2020 Georg Lutz <georg AT NOSPAM georglutz DOT de>
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ def parse_and_split_field(field):
        list consisting of the splitted values.'''
     result = []
     if len(field) != 2:
-        return
+        return result
     if field[0].find("ENCODING=QUOTED-PRINTABLE") > 0:
         result = quopri.decodestring(field[1]).split(";")
     else:
@@ -62,7 +62,7 @@ def convert_to_mutt_aliases(entry):
     result = []
 
     addresses = get_fields(entry, "EMAIL")
-    if len(addresses) == 0:
+    if not addresses:
         return result
 
     # The name of the entry. Will be used as base for alias name
@@ -71,7 +71,7 @@ def convert_to_mutt_aliases(entry):
 
     # First try: name (N) field
     name = get_fields(entry, "N")
-    if len(name) > 0:
+    if name:
         parsed_name = parse_and_split_field(name[0])
         # First entry is the family name, second the given name
         if len(parsed_name) >= 1:
@@ -81,20 +81,20 @@ def convert_to_mutt_aliases(entry):
                 full_name = parsed_name[1] + " " + parsed_name[0]
 
     # We haven't found a valid name, try company (ORG) field:
-    if len(entry_name) == 0:
+    if not entry_name:
         org = get_fields(entry, "ORG")
-        if len(org) > 0:
+        if org:
             parsed_name = parse_and_split_field(org[0])
-            if len(parsed_name) > 0:
+            if parsed_name:
                 entry_name = parsed_name[0].lower().replace(" ", "")
                 full_name = parsed_name[0]
-    if len(entry_name) == 0:
+    if not entry_name:
         logging.error("Cannot determine alias name. Ignore entry.")
-        return
+        return []
 
     i = 1
     for address in addresses:
-        if len(address[1]) > 0:
+        if address[1]:
             alias_name = entry_name
             if i != 1:
                 alias_name += str(i)
@@ -144,7 +144,7 @@ def main():
         logging.error("Cannot open vcard file")
         sys.exit(2)
 
-    if len(options.output_file) == 0:
+    if not options.output_file:
         output_file = sys.stdout
     else:
         try:
@@ -183,4 +183,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

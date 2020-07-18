@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # vim: set fileencoding=utf-8 :
 """ vcf_egw_to_muttalias.py
     Converts egroupware exported vcards to mutt aliases"""
@@ -18,8 +18,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import argparse
 import logging
-import optparse
 import os
 import quopri
 import sys
@@ -104,36 +104,33 @@ def convert_to_mutt_aliases(entry):
     return result
 
 
+def get_args():
+    '''Configures command line parser and returns parsed parameters'''
+    parser = argparse.ArgumentParser(
+        description="Converts (not only egroupware exported) vcards to mutt aliases")
+    parser.add_argument(
+        "-d", "--debuglevel", dest="debuglevel", type=int, default=logging.WARNING,
+        help="""Sets numerical debug level, see library logging module.
+        Default is 30 (WARNING). Possible values are CRITICAL 50, ERROR 40
+        WARNING 30, INFO 20, DEBUG 10, NOTSET 0. All log messages with debuglevel
+        or above are printed. So to disable all output set debuglevel e.g. to 100.""")
+    parser.add_argument(
+        "-o", "--output_file", dest="output_file",
+	       help="The output file. Default output is sent to STDOUT")
+    parser.add_argument(
+        "vcard_file_name",
+        help="The vcard file to convert")
+    return parser.parse_args()
+
+
 def main():
     '''main function, called when script file is executed directly'''
 
-    parser = optparse.OptionParser(
-	       usage="%prog [options] vcard_file",
-	       version="%prog " + os.linesep +
-	       "Copyright (C) 2011 Georg Lutz <georg AT NOSPAM georglutz DOT de>",
-	       epilog="vcard_file: The vcard file to convert.")
+    args = get_args()
 
-    parser.add_option(
-        "-d", "--debuglevel", dest="debuglevel",
-        type="int", default=logging.WARNING,
-	       help="Sets numerical debug level, see library logging module." +
-        "Default is 30 (WARNING). Possible values are CRITICAL 50, ERROR 40," +
-        "WARNING 30, INFO 20, DEBUG 10, NOTSET 0. All log messages with debuglevel" +
-        "or above are printed. So to disable all output set debuglevel e.g. to 100.")
+    logging.basicConfig(format="%(message)s", level=args.debuglevel)
 
-    parser.add_option(
-        "-o", "--output_file", dest="output_file",
-	       type="string", default="", action="store",
-	       help="The output file. Default output is sent to STDOUT")
-    (options, args) = parser.parse_args()
-
-    logging.basicConfig(format="%(message)s", level=options.debuglevel)
-
-    if len(args) < 1:
-        parser.print_help()
-        sys.exit(1)
-
-    vcard_file_name = os.path.expanduser(args[0])
+    vcard_file_name = args.vcard_file_name
     if not os.path.isfile(vcard_file_name):
         logging.error("vcard_file not found")
         sys.exit(1)
@@ -144,11 +141,11 @@ def main():
         logging.error("Cannot open vcard file")
         sys.exit(2)
 
-    if not options.output_file:
+    if not args.output_file:
         output_file = sys.stdout
     else:
         try:
-            output_file = open(options.output_file, "w")
+            output_file = open(args.output_file, "w")
         except IOError:
             logging.error("Cannot open output file for writing")
             sys.exit(2)

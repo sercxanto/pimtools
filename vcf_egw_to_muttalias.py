@@ -116,7 +116,7 @@ def get_args():
         or above are printed. So to disable all output set debuglevel e.g. to 100.""")
     parser.add_argument(
         "-o", "--output_file", dest="output_file",
-	       help="The output file. Default output is sent to STDOUT")
+        help="The output file. Default output is sent to STDOUT")
     parser.add_argument(
         "vcard_file_name",
         help="The vcard file to convert")
